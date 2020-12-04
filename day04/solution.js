@@ -15,52 +15,24 @@ function parsePassport(str) {
   }, {});
 }
 
-function isValid1(passport) {
-  for (let i = 0; i < required.length; i++) {
-    const field = required[i];
-    if (passport[field] === undefined) {
+const validators = {
+  byr: (x) => inRange(x, 1920, 2002),
+  iyr: (x) => inRange(x, 2010, 2020),
+  eyr: (x) => inRange(x, 2020, 2030),
+  hgt: (x) => {
+    const match = x.match(/^(\d+)(cm|in)$/);
+    if (match === null) {
       return false;
     }
-  }
-  return true;
-}
+    return (match[2] === "cm" && inRange(match[1], 150, 193)) || (match[2] === "in" && inRange(match[1], 59, 76));
+  },
+  hcl: (x) => /#[0-9a-f]{6}/g.test(x),
+  ecl: (x) => colors.includes(x),
+  pid: (x) => /^\d{9}$/.test(x),
+};
 
-function isValidField(name, value) {
-  switch (name) {
-    case "byr":
-      return inRange(value, 1920, 2002);
-    case "iyr":
-      return inRange(value, 2010, 2020);
-    case "eyr":
-      return inRange(value, 2020, 2030);
-    case "hgt": {
-      const match = value.match(/^(\d+)(cm|in)$/);
-      if (match === null) {
-        return false;
-      }
-      return (match[2] === "cm" && inRange(match[1], 150, 193)) || (match[2] === "in" && inRange(match[1], 59, 76));
-    }
-    case "hcl":
-      return /#[0-9a-f]{6}/g.test(value);
-    case "ecl":
-      return colors.includes(value);
-    case "pid":
-      return /^\d{9}$/.test(value);
-    default:
-      return true;
-  }
-}
-
-function isValid2(passport) {
-  for (let i = 0; i < required.length; i++) {
-    const field = required[i];
-    const value = passport[field];
-    if (value === undefined || !isValidField(field, value)) {
-      return false;
-    }
-  }
-  return true;
-}
+const isValid1 = (passport) => required.every((x) => passport[x]);
+const isValid2 = (passport) => required.every((x) => passport[x] && validators[x](passport[x]));
 
 module.exports = {
   part1: (data) => data.reduce((acc, curr) => (isValid1(parsePassport(curr)) ? acc + 1 : acc), 0),
