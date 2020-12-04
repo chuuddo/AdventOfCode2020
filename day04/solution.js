@@ -25,57 +25,38 @@ function isValid1(passport) {
   return true;
 }
 
+function isValidField(name, value) {
+  switch (name) {
+    case "byr":
+      return inRange(value, 1920, 2002);
+    case "iyr":
+      return inRange(value, 2010, 2020);
+    case "eyr":
+      return inRange(value, 2020, 2030);
+    case "hgt": {
+      const match = value.match(/^(\d+)(cm|in)$/);
+      if (match === null) {
+        return false;
+      }
+      return (match[2] === "cm" && inRange(match[1], 150, 193)) || (match[2] === "in" && inRange(match[1], 59, 76));
+    }
+    case "hcl":
+      return /#[0-9a-f]{6}/g.test(value);
+    case "ecl":
+      return colors.includes(value);
+    case "pid":
+      return /^\d{9}$/.test(value);
+    default:
+      return true;
+  }
+}
+
 function isValid2(passport) {
   for (let i = 0; i < required.length; i++) {
     const field = required[i];
     const value = passport[field];
-    if (value === undefined) {
+    if (value === undefined || !isValidField(field, value)) {
       return false;
-    }
-    switch (field) {
-      case "byr":
-        if (!inRange(value, 1920, 2002)) {
-          return false;
-        }
-        break;
-      case "iyr":
-        if (!inRange(value, 2010, 2020)) {
-          return false;
-        }
-        break;
-      case "eyr":
-        if (!inRange(value, 2020, 2030)) {
-          return false;
-        }
-        break;
-      case "hgt": {
-        const match = value.match(/^(\d+)(cm|in)$/);
-        if (
-          match == null ||
-          (match[2] === "cm" && !inRange(match[1], 150, 193)) ||
-          (match[2] === "in" && !inRange(match[1], 59, 76))
-        ) {
-          return false;
-        }
-        break;
-      }
-      case "hcl":
-        if (!/#[0-9a-f]{6}/g.test(value)) {
-          return false;
-        }
-        break;
-      case "ecl":
-        if (!colors.includes(value)) {
-          return false;
-        }
-        break;
-      case "pid":
-        if (!/^\d{9}$/.test(value)) {
-          return false;
-        }
-        break;
-      default:
-        break;
     }
   }
   return true;
