@@ -15,7 +15,7 @@ const example = `..##.......
 #...##....#
 .#..#...#.#`.split("\n");
 
-describe("Day 02", () => {
+describe("Day 03", () => {
   test("part 1 example", () => expect(part1(example)).toBe(7));
   test("part 2 example", () => expect(part2(example)).toBe(336));
   test("part 1 data", () => expect(part1(data)).toBe(171));
