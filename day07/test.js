@@ -23,7 +23,8 @@ dark violet bags contain no other bags.`.split("\n");
 
 describe("Day 07", () => {
   test("part 1 example", () => expect(part1(example)).toBe(4));
-  test("part 2 example", () => expect(part2(example2)).toBe(126));
+  test("part 2 example", () => expect(part2(example)).toBe(32));
+  test("part 2 example 2", () => expect(part2(example2)).toBe(126));
   test("part 1 data", () => expect(part1(data)).toBe(235));
   test("part 2 data", () => expect(part2(data)).toBe(158493));
 });

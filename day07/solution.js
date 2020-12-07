@@ -36,11 +36,13 @@ module.exports = {
   },
   part2: (data) => {
     const graph = parseGraph(data);
-    const count = (contains) => {
-      return Object.keys(contains).reduce((res, color) => {
-        return res + contains[color] * (1 + count(graph[color]));
-      }, 0);
-    };
-    return count(graph[myColor]);
+    let result = 0;
+    const stack = Object.entries(graph[myColor]);
+    while (stack.length > 0) {
+      const [color, count] = stack.pop();
+      result += count;
+      stack.push(...Object.entries(graph[color]).map(([k, v]) => [k, count * v]));
+    }
+    return result;
   },
 };
