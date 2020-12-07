@@ -14,14 +14,19 @@ const parseGraph = (data) => {
   }, {});
 };
 
+const myColor = "shiny gold";
+
 module.exports = {
   part1: (data) => {
     const graph = parseGraph(data);
     return Object.keys(graph).reduce((count, color) => {
+      if (color === myColor) {
+        return count;
+      }
       const stack = Object.keys(graph[color]);
       while (stack.length > 0) {
         const current = stack.pop();
-        if (current === "shiny gold") {
+        if (current === myColor) {
           return count + 1;
         }
         stack.push(...Object.keys(graph[current]));
@@ -36,6 +41,6 @@ module.exports = {
         return res + contains[color] * (1 + count(graph[color]));
       }, 0);
     };
-    return count(graph["shiny gold"]);
+    return count(graph[myColor]);
   },
 };
