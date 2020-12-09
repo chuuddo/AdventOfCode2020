@@ -23,19 +23,15 @@ const part1 = (data, size) => {
 const part2 = (data, size) => {
   const target = part1(data, size);
   const nums = data.map(Number);
-  for (let i = 0; i < nums.length - 1; i++) {
-    let sum = nums[i];
-    let min = nums[i];
-    let max = nums[i];
-    for (let j = i + 1; j < nums.length; j++) {
-      sum += nums[j];
-      if (sum > target) break;
-      min = Math.min(nums[j], min);
-      max = Math.max(nums[j], max);
-      if (sum === target) {
-        return min + max;
-      }
+  let i = 0;
+  let j = 1;
+  let sum = nums[i] + nums[j];
+  while (i < nums.length - 1 && j < nums.length && i < j) {
+    if (sum === target) {
+      const range = nums.slice(i, j + 1);
+      return Math.max(...range) + Math.min(...range);
     }
+    sum += sum > target ? -nums[i++] : nums[++j];
   }
   return null;
 };
