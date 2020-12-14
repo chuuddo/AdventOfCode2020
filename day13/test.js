@@ -6,7 +6,7 @@ const data = readFileSync(resolve(__dirname, "data.txt"), "utf8").trim().split("
 const example = `939
 7,13,x,x,59,x,31,19`.split("\n");
 
-describe("Day 12", () => {
+describe("Day 13", () => {
   test("part 1 example", () => expect(part1(example)).toBe(295));
   test("part 2 example", () => expect(part2(example)).toBe(1068781));
   test("part 2 example 2", () => expect(part2(["", "17,x,13,19"])).toBe(3417));
