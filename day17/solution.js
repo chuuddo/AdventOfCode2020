@@ -1,34 +1,9 @@
-const getNeighbours3d = (cube) => {
+function getCombinations(items, length) {
+  if (length === 1) return items.map((item) => [item]);
   const result = [];
-  const [x, y, z] = cube.split(";").map(Number);
-  for (let dz = -1; dz <= 1; dz++) {
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        if (!(dx === 0 && dy === 0 && dz === 0)) {
-          result.push(`${x + dx};${y + dy};${z + dz}`);
-        }
-      }
-    }
-  }
+  items.forEach((item) => getCombinations(items, length - 1).forEach((x) => result.push([item, ...x])));
   return result;
-};
-
-const getNeighbours4d = (cube) => {
-  const result = [];
-  const [x, y, z, w] = cube.split(";").map(Number);
-  for (let dw = -1; dw <= 1; dw++) {
-    for (let dz = -1; dz <= 1; dz++) {
-      for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
-          if (!(dx === 0 && dy === 0 && dz === 0 && dw === 0)) {
-            result.push(`${x + dx};${y + dy};${z + dz};${w + dw}`);
-          }
-        }
-      }
-    }
-  }
-  return result;
-};
+}
 
 function circle(activeCubes, getNeighbours) {
   const cubes = new Set();
@@ -57,7 +32,12 @@ const getActive = (data, dimensions) => {
   return active;
 };
 
-const solve = (data, dimensions, getNeighbours) => {
+const solve = (data, dimensions) => {
+  const directions = getCombinations([-1, 0, 1], dimensions).filter((x) => !x.every((n) => n === 0));
+  const getNeighbours = (cube) => {
+    const values = cube.split(";").map(Number);
+    return directions.map((x) => x.map((delta, i) => delta + values[i]).join(";"));
+  };
   let active = getActive(data, dimensions);
   for (let i = 0; i < 6; i++) {
     active = circle(active, getNeighbours);
@@ -66,6 +46,6 @@ const solve = (data, dimensions, getNeighbours) => {
 };
 
 module.exports = {
-  part1: (data) => solve(data, 3, getNeighbours3d),
-  part2: (data) => solve(data, 4, getNeighbours4d),
+  part1: (data) => solve(data, 3),
+  part2: (data) => solve(data, 4),
 };
