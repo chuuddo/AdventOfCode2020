@@ -1,8 +1,6 @@
 function getCombinations(items, length) {
   if (length === 1) return items.map((item) => [item]);
-  const result = [];
-  items.forEach((item) => getCombinations(items, length - 1).forEach((x) => result.push([item, ...x])));
-  return result;
+  return items.flatMap((item) => getCombinations(items, length - 1).map((x) => [item, ...x]));
 }
 
 function circle(activeCubes, getNeighbours) {
