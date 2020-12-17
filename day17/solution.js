@@ -4,14 +4,13 @@ function getCombinations(items, length) {
 }
 
 function circle(activeCubes, getNeighbours) {
-  const cubes = new Set();
+  const counts = new Map();
   for (const cube of activeCubes) {
-    getNeighbours(cube).forEach((x) => cubes.add(x));
+    getNeighbours(cube).forEach((x) => counts.set(x, (counts.get(x) || 0) + 1));
   }
   const result = new Set();
-  for (const cube of cubes) {
-    const activeCount = getNeighbours(cube).reduce((acc, x) => (activeCubes.has(x) ? acc + 1 : acc), 0);
-    if (activeCubes.has(cube) ? activeCount === 2 || activeCount === 3 : activeCount === 3) {
+  for (const [cube, count] of counts) {
+    if ((activeCubes.has(cube) && count === 2) || count === 3) {
       result.add(cube);
     }
   }
