@@ -1,12 +1,4 @@
-const intersect = (setA, setB) => {
-  const result = new Set();
-  setB.forEach((item) => {
-    if (setA.has(item)) {
-      result.add(item);
-    }
-  });
-  return result;
-};
+const { intersect } = require("../utils");
 
 module.exports = {
   part1: (data) => data.reduce((count, group) => count + new Set(group.replace(/\n/g, "")).size, 0),

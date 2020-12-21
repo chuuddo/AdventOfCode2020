@@ -14,7 +14,7 @@ const calculate = (tokens) => {
   return stack[0];
 };
 
-function getReversePolishNotation(tokens, weights) {
+const getReversePolishNotation = (tokens, weights) => {
   const stack = [];
   const output = [];
   tokens.forEach((token) => {
@@ -43,7 +43,7 @@ function getReversePolishNotation(tokens, weights) {
     }
   });
   return output.concat(stack.reverse());
-}
+};
 
 const solve = (data, weights) => {
   return data.reduce((acc, cur) => acc + calculate(getReversePolishNotation(parseTokens(cur), weights)), 0);

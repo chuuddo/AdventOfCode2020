@@ -1,7 +1,4 @@
-function getCombinations(items, length) {
-  if (length === 1) return items.map((item) => [item]);
-  return items.flatMap((item) => getCombinations(items, length - 1).map((x) => [item, ...x]));
-}
+const { getCombinations, last, count2d } = require("../utils");
 
 const buildImage = (tiles) => {
   const result = [];
@@ -40,8 +37,6 @@ const countMonsters = (image, pattern) => {
   return count;
 };
 
-const last = (array) => array[array.length - 1];
-const count = (array2d, item) => array2d.reduce((a, y) => a + y.reduce((b, x) => (x === item ? b + 1 : b), 0), 0);
 const transpose = (tile) => tile[0].map((_, i) => tile.map((x) => x[i]));
 const rotate = (tile) => transpose(tile).map((x) => [...x].reverse());
 const getRotations = (tile) => [0, 1, 2].reduce((acc, i) => [...acc, rotate(acc[i])], [tile]);
@@ -112,6 +107,6 @@ module.exports = {
     const monster = ["                  #", "#    ##    ##    ###", " #  #  #  #  #  #   "].map((x) => x.split(""));
     const image = buildImage(grid.map((y) => y.map((x) => removeBorder(x[1]))));
     const monsters = Math.max(...getTransforms(monster).map((x) => countMonsters(image, x)));
-    return count(image, "#") - count(monster, "#") * monsters;
+    return count2d(image, "#") - count2d(monster, "#") * monsters;
   },
 };

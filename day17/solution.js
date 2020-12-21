@@ -1,9 +1,6 @@
-function getCombinations(items, length) {
-  if (length === 1) return items.map((item) => [item]);
-  return items.flatMap((item) => getCombinations(items, length - 1).map((x) => [item, ...x]));
-}
+const { getCombinations } = require("../utils");
 
-function circle(activeCubes, getNeighbours) {
+const circle = (activeCubes, getNeighbours) => {
   const counts = new Map();
   for (const cube of activeCubes) {
     getNeighbours(cube).forEach((x) => counts.set(x, (counts.get(x) || 0) + 1));
@@ -15,7 +12,7 @@ function circle(activeCubes, getNeighbours) {
     }
   }
   return result;
-}
+};
 
 const getActive = (data, dimensions) => {
   const active = new Set();

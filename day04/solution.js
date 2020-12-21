@@ -1,19 +1,19 @@
 const required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
 const colors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
 
-function inRange(value, start, end) {
+const inRange = (value, start, end) => {
   const num = Number(value);
   return num >= start && num <= end;
-}
+};
 
-function parsePassport(str) {
+const parsePassport = (str) => {
   const tokens = str.split(/[\s\n]+/);
   return tokens.reduce((acc, curr) => {
     const [key, value] = curr.split(":");
     acc[key] = value;
     return acc;
   }, {});
-}
+};
 
 const validators = {
   byr: (x) => inRange(x, 1920, 2002),

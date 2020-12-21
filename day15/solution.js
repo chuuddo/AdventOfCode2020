@@ -1,4 +1,4 @@
-function solve(data, n) {
+const solve = (data, n) => {
   const nums = data.split(",").map(Number);
   let last = nums.pop();
   const used = new Map(nums.map((x, i) => [x, i]));
@@ -8,7 +8,7 @@ function solve(data, n) {
     last = lastIndex !== undefined ? i - lastIndex - 1 : 0;
   }
   return last;
-}
+};
 
 module.exports = {
   part1: (data) => solve(data, 2020),

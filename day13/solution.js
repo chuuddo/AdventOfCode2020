@@ -1,4 +1,4 @@
-function modInverse(a, mod) {
+const modInverse = (a, mod) => {
   const b = a % mod;
   for (let x = 1; x < mod; x++) {
     if ((b * x) % mod === 1) {
@@ -6,7 +6,7 @@ function modInverse(a, mod) {
     }
   }
   return 1;
-}
+};
 
 const mod = (n, m) => ((n % m) + m) % m;
 
