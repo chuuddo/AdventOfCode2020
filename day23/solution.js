@@ -10,7 +10,7 @@ const createCircle = (array) => {
   return array.reduce((acc, cur, i, arr) => {
     acc[cur] = arr[(i + 1) % arr.length];
     return acc;
-  }, []);
+  }, new Uint32Array(array.length + 1));
 };
 
 const move = (circle, current, max) => {
@@ -39,15 +39,15 @@ const solve = (cups, moves, max) => {
 
 module.exports = {
   part1: (data) => {
-    const cups = data.split("").map(Number);
+    const cups = Uint32Array.from(data);
     const circle = solve(cups, 100, Math.max(...cups));
     return Number([...getIterator(circle, 1)].slice(1).join(""));
   },
   part2: (data) => {
     const max = 1000000;
-    const cups = Array.from({ length: max }, (_, i) => i + 1);
-    data.split("").forEach((x, i) => {
-      cups[i] = Number(x);
+    const cups = Uint32Array.from({ length: max }, (_, i) => i + 1);
+    Uint32Array.from(data).forEach((x, i) => {
+      cups[i] = x;
     });
     const circle = solve(cups, 10000000, max);
     return circle[1] * circle[circle[1]];
