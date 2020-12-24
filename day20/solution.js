@@ -104,7 +104,7 @@ module.exports = {
     const tiles = parseTiles(data);
     const corners = getCorners(tiles);
     const grid = buildGrid(tiles, corners);
-    const monster = ["                  #", "#    ##    ##    ###", " #  #  #  #  #  #   "].map((x) => x.split(""));
+    const monster = ["                  # ", "#    ##    ##    ###", " #  #  #  #  #  #   "].map((x) => x.split(""));
     const image = buildImage(grid.map((y) => y.map((x) => removeBorder(x[1]))));
     const monsters = Math.max(...getTransforms(monster).map((x) => countMonsters(image, x)));
     return count2d(image, "#") - count2d(monster, "#") * monsters;
